@@ -48,34 +48,36 @@ class _CppFormatter(_Formatter):
 
 #pragma once
 
-namespace moverse {
-namespace version {
-  constexpr const char *VERSION_STRING = "%s";
-  constexpr const char *GIT_TAG_NAME = "%s";
-  constexpr const unsigned int GIT_COMMITS_SINCE_TAG = %d;
-  constexpr const char *GIT_COMMIT_ID = "%s";
-  constexpr bool MODIFIED_SINCE_COMMIT = %s;
-  constexpr bool IS_DEV_VERSION = %s;
+namespace moverse 
+{
+namespace version 
+{
+constexpr const char        *VERSION_STRING        = "%s";
+constexpr const char        *GIT_TAG_NAME          = "%s";
+constexpr const unsigned int GIT_COMMITS_SINCE_TAG = %d;
+constexpr const char        *GIT_COMMIT_ID         = "%s";
+constexpr bool               MODIFIED_SINCE_COMMIT = %s;
+constexpr bool               IS_DEV_VERSION        = %s;
 %s
-}
-}
+}  // namespace version
+}  // namespace moverse
 """ % (version_info.version_string, version_info.git_tag_name, version_info.git_commits_since_tag,
        version_info.git_commit_id, str(version_info.modified_since_commit).lower(), str(version_info.is_dev).lower(),
        other_variables)
 
     def is_stable_formatter(self, is_stable):
         return """
-  constexpr bool IS_STABLE_VERSION = %s;
+constexpr bool IS_STABLE_VERSION = %s;
 """ % str(is_stable).lower()
 
     def tag_interpretation_formatter(self, tag_interpretation, version_components):
         return """
-  constexpr const char *VERSION_COMPONENTS[] = %s;
-  constexpr const char *VERSION_TAG = "%s";
+constexpr const char *VERSION_COMPONENTS[] = %s;
+constexpr const char *VERSION_TAG          = "%s";
 
-  constexpr const std::uint32_t MAJOR = %d;
-  constexpr const std::uint32_t MINOR = %d;
-  constexpr const std::uint32_t PATCH = %d;
+constexpr const std::uint32_t MAJOR = %d;
+constexpr const std::uint32_t MINOR = %d;
+constexpr const std::uint32_t PATCH = %d;
 """ % (
     version_components, 
     tag_interpretation.version_tag, 
