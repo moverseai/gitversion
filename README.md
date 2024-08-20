@@ -1,4 +1,5 @@
-# git-version [![Build Status](https://travis-ci.org/smessmer/gitversion.svg?branch=master)](https://travis-ci.org/smessmer/gitversion)
+# git-version
+
 Make git version information (e.g. git tag name, git commit id, ...) available to your source files.
 A simple use case scenario is to output this version information when the application is called with "--version".
 
@@ -7,34 +8,22 @@ This repository contains
   - A CMake script which can be directly included into a CMake projects. It will then automatically be run on each build and you only have to #include the generated file.
 
 
-Use with cmake (only C++)
-================
-
-Copy this repository into a subfolder of your project and include the cmake.cmake file in your CMakeLists.txt
-
-    INCLUDE(gitversion/cmake.cmake)
-    TARGET_GIT_VERSION_INIT(buildtarget)
-
-Then, you can write in your source file:
-
-    #include <gitversion/version.h>
-    cout << version::VERSION_STRING << endl;
-    cout << version::IS_STABLE_VERSION << endl;
-    cout << version::GIT_COMMIT_ID << endl;
-    cout << version::GIT_COMMITS_SINCE_TAG << endl;
-    // ... (see below for more variables)
-
-That's it already. Have fun :)
-
 Use manually (C++ and Python)
 ================
 
-Install from PyPi
+Install (editable only)
 ----------------
 
+Requirements, before installing the tool:
+- git
+- python3
+ 
 To install the tool:
 
-    pip install git-version
+    cd /PATH/TO/git-version
+    pip install -e . 
+
+> !WARNING!: **ONLY USE WITH AN EDITABLE INSTALLATION**
 
 To generate a version.h file containing C++ version information for the git repository located in myrepositorydir:
 
@@ -43,18 +32,6 @@ To generate a version.h file containing C++ version information for the git repo
 Or to generate a module with version information for python:
 
     python -m gitversionbuilder --dir myrepositorydir --lang python version.py
-
-
-Run script from source tree
--------------------------
-
-If you don't want to use PyPi, you can run the script directly from the source tree.
-Clone this repository and go to the src directory (or alternatively add the src directory to the PYTHONPATH environment variable), then call for example
-
-    python -m gitversionbuilder --dir myrepositorydir --lang cpp version.h
-    
-If you want to build a distribution of the package to use it somewhere else, you can use the standard python [setuptools](https://pythonhosted.org/setuptools/).
-A corresponding setup.py is available in the directory.
 
 
 Available Information
