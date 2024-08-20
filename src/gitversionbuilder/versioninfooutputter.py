@@ -1,5 +1,4 @@
 
-
 def to_cpp(version_info):
     return _CppFormatter().format(version_info)
 
@@ -48,9 +47,8 @@ class _CppFormatter(_Formatter):
 // ---------------------------------------------------
 
 #pragma once
-#ifndef MESSMER_GITVERSION_VERSION_H
-#define MESSMER_GITVERSION_VERSION_H
 
+namespace moverse {
 namespace version {
   constexpr const char *VERSION_STRING = "%s";
   constexpr const char *GIT_TAG_NAME = "%s";
@@ -60,8 +58,7 @@ namespace version {
   constexpr bool IS_DEV_VERSION = %s;
 %s
 }
-
-#endif
+}
 """ % (version_info.version_string, version_info.git_tag_name, version_info.git_commits_since_tag,
        version_info.git_commit_id, str(version_info.modified_since_commit).lower(), str(version_info.is_dev).lower(),
        other_variables)
@@ -75,7 +72,17 @@ namespace version {
         return """
   constexpr const char *VERSION_COMPONENTS[] = %s;
   constexpr const char *VERSION_TAG = "%s";
-""" % (version_components, tag_interpretation.version_tag)
+
+  constexpr const std::uint32_t MAJOR = %d;
+  constexpr const std::uint32_t MINOR = %d;
+  constexpr const std::uint32_t PATCH = %d;
+""" % (
+    version_components, 
+    tag_interpretation.version_tag, 
+    int(tag_interpretation.version_components[0]), 
+    int(tag_interpretation.version_components[1]), 
+    int(tag_interpretation.version_components[2])
+)
 
     def version_components_formatter(self, version_components):
         return "{\"" + "\", \"".join(version_components) + "\"}"

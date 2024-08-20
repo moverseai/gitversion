@@ -16,6 +16,9 @@ setup(name='git-version',
       packages=['gitversionbuilder'],
       tests_require=['tempdir'],
       test_suite='test',
+      install_requires=[
+        "semver",
+      ],
       entry_points = {
         'console_scripts': [
           "git-version = gitversionbuilder.__main__:run_main"

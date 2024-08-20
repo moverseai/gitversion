@@ -1,5 +1,6 @@
 from gitversionbuilder.utils import EqualityMixin, isstring
 import re
+import semver
 
 
 class TagInterpretation(EqualityMixin):
@@ -33,13 +34,17 @@ class VersionInfo(EqualityMixin):
         matched = re.match("^v?([0-9]+(?:\.[0-9]+)*)(?:-?((alpha|beta|rc|pre|m)[0-9]?|stable|final))?$",
                            self.git_tag_name, re.IGNORECASE)
         if matched:
-            version_components = matched.group(1).split('.')
+            semantic_version = semver.Version.parse(matched.group(1))            
+            # version_components = matched.group(1).split('.')
+            version_components = [semantic_version.major, semantic_version.minor, semantic_version.patch]
+            version_components = list(map(str, version_components))
             version_tag = matched.group(2)
             if version_tag is None:
                 version_tag = ""
             return TagInterpretation(version_components, version_tag, self.is_dev)
         else:
-            return None
+            raise ValueError("Version tag should start with a 'v' character and be followed by a valid 'semver' string.")
+            # return None
 
     @property
     def version_string(self):
