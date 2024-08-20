@@ -1,5 +1,5 @@
 from gitversionbuilder import versioninforeader, versioninfooutputter
-
+import os
 
 def get_version(git_directory):
     return versioninforeader.from_git(git_directory)
@@ -8,7 +8,7 @@ def get_version(git_directory):
 def create_version_file(git_directory, output_file, lang):
     version_info = get_version(git_directory)
     output = _output(version_info, lang=lang)
-    _write_to_file(output_file, output)
+    _write_to_file(os.path.join(git_directory, output_file), output)
 
 
 def _output(version_info, lang):
