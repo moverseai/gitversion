@@ -34,7 +34,7 @@ class IntegrationTest(unittest.TestCase, test_utils.CodeAsserts):
                     IS_DEV_VERSION = True
                     IS_STABLE_VERSION = False
                 """ % (commit_id[0:7], commit_id[0:7])
-            with open("/dev/null", 'w') as devnull:
+            with open(os.devnull, 'w') as devnull:
                 subprocess.check_call([sys.executable, "-m", "gitversionbuilder", "--lang", "python", "--dir", git.dir, out_file],
                                       stdout=devnull)
             self.assertCodeEqual(expected, self.read_file(out_file))
@@ -64,7 +64,7 @@ class IntegrationTest(unittest.TestCase, test_utils.CodeAsserts):
 
                     #endif
                 """ % (commit_id[0:7], commit_id[0:7])
-            with open("/dev/null", 'w') as devnull:
+            with open(os.devnull, 'w') as devnull:
                 subprocess.check_call([sys.executable, "-m", "gitversionbuilder", "--lang", "cpp", "--dir", git.dir, out_file],
                                       stdout=devnull)
             self.assertCodeEqual(expected, self.read_file(out_file))
@@ -87,7 +87,7 @@ class IntegrationTest(unittest.TestCase, test_utils.CodeAsserts):
                     IS_STABLE_VERSION = False
                 """ % (commit_id[0:7], commit_id[0:7])
             script_dir = os.getcwd()
-            with ChDir(git.dir), open("/dev/null", 'w') as devnull:
+            with ChDir(git.dir), open(os.devnull, 'w') as devnull:
                 subprocess.check_call([sys.executable, "-m", "gitversionbuilder", "--lang", "python", out_file],
                                       stdout=devnull, env={"PYTHONPATH": script_dir})
             self.assertCodeEqual(expected, self.read_file(out_file))
